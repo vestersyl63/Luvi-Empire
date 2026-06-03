@@ -895,7 +895,7 @@
             document.getElementById('prodBadge').value = '';
             document.getElementById('prodRating').value = '5';
             document.getElementById('prodIcon').value = 'fa-gem';
-            document.getElementById('prodImage').value = '';
+            if (typeof clearImage === 'function') clearImage();
             document.getElementById('productModal').classList.add('active');
         };
 
@@ -1190,11 +1190,11 @@
             editingProductId = id;
             editingFirebaseKey = product.firebaseKey;
             document.getElementById('modalTitle').innerHTML = '<i class="fas fa-edit" style="color: var(--primary); margin-right: 8px;"></i>Edit Product';
-            document.getElementById('prodName').value = product.name;
-            document.getElementById('prodCategory').value = product.category;
-            document.getElementById('prodPrice').value = product.price;
+            document.getElementById('prodName').value = product.name || '';
+            document.getElementById('prodCategory').value = product.category || 'jewelry';
+            document.getElementById('prodPrice').value = product.price || '';
             document.getElementById('prodOldPrice').value = product.oldPrice || '';
-            document.getElementById('prodStock').value = product.stock;
+            document.getElementById('prodStock').value = product.stock || '';
             document.getElementById('prodBadge').value = product.badge || '';
             document.getElementById('prodRating').value = product.rating || 5;
             document.getElementById('prodIcon').value = product.icon || 'fa-tag';
@@ -1207,20 +1207,17 @@
                 document.getElementById('imageUploadBox').style.display = 'none';
                 document.getElementById('imagePreview').style.display = 'block';
             } else {
-                clearImage();
+                if (typeof clearImage === 'function') clearImage();
             }
 
             document.getElementById('productModal').classList.add('active');
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById('products').classList.add('active');
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
         };
 
         // Update closeProductModal to clear image
         const originalCloseProductModal = window.closeProductModal;
         window.closeProductModal = function() {
             document.getElementById('productModal').classList.remove('active');
-            clearImage();
+            if (typeof clearImage === 'function') clearImage();
         };
 
         document.querySelectorAll('.modal-overlay').forEach(overlay => {
